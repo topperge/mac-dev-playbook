@@ -51,3 +51,4 @@ rrivera.vscode-gitlab-explorer
 VisualStudioExptTeam.vscodeintellicode
 vscjava.vscode-maven
 ms-vscode.csharp
+vscjava.vscode-java-debug
