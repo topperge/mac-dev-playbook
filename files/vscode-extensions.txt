@@ -24,7 +24,7 @@ chrmarti.regex
 donjayamanne.githistory
 amazonwebservices.aws-toolkit-vscode
 vscjava.vscode-java-debug
-ithildir.java-properties 
+ithildir.java-properties
 redhat.vscode-xml
 dotjoshjohnson.xml
 balazs4.gitlab-pipeline-monitor
@@ -50,3 +50,4 @@ redhat.vscode-yaml
 rrivera.vscode-gitlab-explorer
 VisualStudioExptTeam.vscodeintellicode
 vscjava.vscode-maven
+ms-vscode.csharp
