@@ -115,9 +115,9 @@ homebrew_cask_apps:
   - apache-directory-studio
   - backblaze
   - dash
-  - aws-sam-cli
-  - container-tools
-  - k8s-tools
+  - aws/tap/aws-sam-cli
+  - aws/tap/container-tools
+  - aws/tap/k8s-tools
 
 # See `geerlingguy.mas` role documentation for usage instructions.
 mas_installed_apps: []
