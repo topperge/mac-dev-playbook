@@ -64,7 +64,7 @@ homebrew_installed_packages:
   - zsh-history-substring-search
   - htop
   - jq
-  - aws-cli
+  - awscli
   - aws-console
   - aws-shell
   - ca-certificates
@@ -101,8 +101,10 @@ homebrew_cask_apps:
   - session-manager-plugin
   - visual-studio-code
   - iterm2
+  - temurin
   - postman
   - powershell
+  - zoom-for-it-admins
   - vlc
   - microsoft-auto-update
   - adobe-acrobat-reader
@@ -117,8 +119,8 @@ homebrew_cask_apps:
   - backblaze
   - dash
   - aws-sam-cli
-  - temurin
-  - zoom-for-it-admins
+  - container-tools
+  - k8s-tools
 
 # See `geerlingguy.mas` role documentation for usage instructions.
 mas_installed_apps: []
