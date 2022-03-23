@@ -23,4 +23,4 @@ eg2.vscode-npm-script
 chrmarti.regex
 donjayamanne.githistory
 amazonwebservices.aws-toolkit-vscode
-ms-vscode.csharp
+vscjava.vscode-java-debug
