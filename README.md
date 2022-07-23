@@ -19,7 +19,12 @@ This playbook installs and configures most of the software I use on my Mac for w
   4. Clone or download this repository to your local drive.
   5. Run `ansible-galaxy install -r requirements.yml` inside this directory to install required Ansible roles.
   6. Run `ansible-playbook main.yml --ask-become-pass` inside this directory. Enter your macOS account password when prompted for the 'BECOME' password.
-  7. Run `cat files/vscode-extensions.txt | xargs -L1 code --install-extension` inside this directory to install a bunch of VSCode extension
+  7. Open up vscode and install the 'code' command line tool so that the next selection will work. This is done by:
+  
+     1. Open the Command Palette (⌘ + ⇧ + P on Mac) OR View ❯ Command Palette
+     2. Type shell command to find Shell Command: Install 'code' command in PATH command
+    
+  8. Run `cat files/vscode-extensions.txt | xargs -L1 code --install-extension` inside this directory to install a bunch of VSCode extension
 
 > Note: If some Homebrew commands fail, you might need to agree to Xcode's license or fix some other Brew issue. Run `brew doctor` to see if this is the case.
 
