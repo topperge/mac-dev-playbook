@@ -6,12 +6,12 @@ configure_terminal: true
 configure_osx: true
 
 # Set to 'true' to configure the Dock via dockutil.
-configure_dock: false
-dockitems_remove: []
-# - Launchpad
-# - TV
-# - Podcasts
-# - 'App Store'
+configure_dock: true
+dockitems_remove:
+ - Launchpad
+ - TV
+ - Podcasts
+ - 'App Store'
 dockitems_persist: []
 # - name: "Sublime Text"
 #   path: "/Applications/Sublime Text.app/"
@@ -62,6 +62,17 @@ homebrew_installed_packages:
   - wget
   - wrk
   - zsh-history-substring-search
+  - htop
+  - jq
+  - aws-cli
+  - aws-console
+  - aws-shell
+  - ca-certificates
+  - wget
+  - imagemagick
+  - pyenv
+  - git-lfs
+  - youtube-dl
 
 homebrew_taps:
   - homebrew/core
@@ -71,15 +82,36 @@ homebrew_cask_appdir: /Applications
 homebrew_cask_apps:
   - chromedriver
   - docker
-  - dropbox
-  - firefox
   - google-chrome
   - handbrake
   - licecap
-  - sequel-ace
+  - dbeaver-community
   - slack
   - sublime-text
   - transmit
+  - vagrant
+  - microsoft-office
+  - session-manager-plugin
+  - visual-studio-code
+  - iterm2
+  - adoptopenjdk11
+  - postman
+  - powershell
+  - zoomus
+  - vlc
+  - microsoft-auto-update
+  - adobe-acrobat-reader
+  - microsoft-teams
+  - stats
+  - keepassxc
+  - meld
+  - google-drive
+  - the-unarchiver
+  - microsoft-remote-desktop
+  - apache-directory-studio
+  - backblaze
+  - dash
+  - aws-sam-cli
 
 # See `geerlingguy.mas` role documentation for usage instructions.
 mas_installed_apps: []
@@ -109,7 +141,7 @@ pip_packages: []
 #   version: "0.16.3" # default: N/A
 
 # Set to 'true' to configure Sublime Text.
-configure_sublime: false
+configure_sublime: true
 sublime_base_path: '~/Library/Application Support/Sublime Text'
 sublime_config_path: "Packages/User"
 sublime_package_control:
