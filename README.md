@@ -24,8 +24,6 @@ This playbook installs and configures most of the software I use on my Mac for w
      1. Open the Command Palette (⌘ + ⇧ + P on Mac) OR View ❯ Command Palette
      2. Type shell command to find Shell Command: Install 'code' command in PATH command
 
-  9. Run `cat files/vscode-extensions.txt | xargs -L1 code --install-extension` inside this directory to install a bunch of VSCode
-
 > Note: If some Homebrew commands fail, you might need to agree to Xcode's license or fix some other Brew issue. Run `brew doctor` to see if this is the case.
 
 ### Use with a remote Mac
