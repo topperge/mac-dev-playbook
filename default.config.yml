@@ -12,6 +12,11 @@ dockitems_remove:
  - TV
  - Podcasts
  - 'App Store'
+ - Maps
+ - Photos
+ - Freeform
+ - Music
+ - News
 dockitems_persist: []
 # - name: "Sublime Text"
 #   path: "/Applications/Sublime Text.app/"
