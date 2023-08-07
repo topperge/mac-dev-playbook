@@ -81,7 +81,8 @@ homebrew_taps:
   - homebrew/core
   - homebrew/cask
   - homebrew/bundle
-  - homebrew/cask-drivers
+# Deprecated in June 2023 by Homebrew team
+#  - homebrew/cask-drivers
   - homebrew/cask-fonts
   - homebrew/services
   - aws/tap
