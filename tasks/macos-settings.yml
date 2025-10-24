@@ -1,0 +1,146 @@
+---
+# Corporate macOS Security and Productivity Settings
+# These settings improve security and developer productivity
+
+- name: Require password immediately after sleep or screen saver begins.
+  command: "defaults write com.apple.screensaver askForPassword -int 1"
+  changed_when: false
+
+- name: Set delay before password is required to 0 seconds.
+  command: "defaults write com.apple.screensaver askForPasswordDelay -int 0"
+  changed_when: false
+
+- name: Set screen lock timeout to 10 minutes.
+  command: "defaults -currentHost write com.apple.screensaver idleTime -int 600"
+  changed_when: false
+
+- name: Show all filename extensions in Finder.
+  command: "defaults write NSGlobalDomain AppleShowAllExtensions -bool true"
+  changed_when: false
+
+- name: Show hidden files in Finder.
+  command: "defaults write com.apple.finder AppleShowAllFiles -bool true"
+  changed_when: false
+
+- name: Show path bar in Finder.
+  command: "defaults write com.apple.finder ShowPathbar -bool true"
+  changed_when: false
+
+- name: Show status bar in Finder.
+  command: "defaults write com.apple.finder ShowStatusBar -bool true"
+  changed_when: false
+
+- name: Display full POSIX path as Finder window title.
+  command: "defaults write com.apple.finder _FXShowPosixPathInTitle -bool true"
+  changed_when: false
+
+- name: Keep folders on top when sorting by name.
+  command: "defaults write com.apple.finder _FXSortFoldersFirst -bool true"
+  changed_when: false
+
+- name: When performing a search, search the current folder by default.
+  command: "defaults write com.apple.finder FXDefaultSearchScope -string 'SCcf'"
+  changed_when: false
+
+- name: Disable the warning when changing a file extension.
+  command: "defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false"
+  changed_when: false
+
+- name: Use list view in all Finder windows by default.
+  command: "defaults write com.apple.finder FXPreferredViewStyle -string 'Nlsv'"
+  changed_when: false
+
+- name: Show the ~/Library folder.
+  command: "chflags nohidden ~/Library"
+  changed_when: false
+
+- name: Set a faster keyboard repeat rate.
+  command: "defaults write NSGlobalDomain KeyRepeat -int 2"
+  changed_when: false
+
+- name: Set a shorter delay until key repeat.
+  command: "defaults write NSGlobalDomain InitialKeyRepeat -int 15"
+  changed_when: false
+
+- name: Enable full keyboard access for all controls.
+  command: "defaults write NSGlobalDomain AppleKeyboardUIMode -int 3"
+  changed_when: false
+
+- name: Disable automatic capitalization.
+  command: "defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false"
+  changed_when: false
+
+- name: Disable smart dashes.
+  command: "defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false"
+  changed_when: false
+
+- name: Disable automatic period substitution.
+  command: "defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false"
+  changed_when: false
+
+- name: Disable smart quotes.
+  command: "defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false"
+  changed_when: false
+
+- name: Disable auto-correct.
+  command: "defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false"
+  changed_when: false
+
+- name: Save to disk (not to iCloud) by default.
+  command: "defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false"
+  changed_when: false
+
+- name: Disable the "Are you sure you want to open this application?" dialog.
+  command: "defaults write com.apple.LaunchServices LSQuarantine -bool false"
+  changed_when: false
+
+- name: Disable automatic opening of Photos app when devices are plugged in.
+  command: "defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true"
+  changed_when: false
+
+- name: Prevent Music from automatically launching.
+  command: "launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2>/dev/null || true"
+  changed_when: false
+  ignore_errors: true
+
+- name: Show battery percentage in menu bar.
+  command: "defaults write com.apple.menuextra.battery ShowPercent -string 'YES'"
+  changed_when: false
+
+- name: Enable text selection in Quick Look.
+  command: "defaults write com.apple.finder QLEnableTextSelection -bool true"
+  changed_when: false
+
+- name: Set screenshots location to ~/Screenshots.
+  block:
+    - name: Create Screenshots directory.
+      file:
+        path: "~/Screenshots"
+        state: directory
+        mode: '0755'
+
+    - name: Set screenshot location.
+      command: "defaults write com.apple.screencapture location ~/Screenshots"
+      changed_when: false
+
+- name: Set screenshot format to PNG.
+  command: "defaults write com.apple.screencapture type -string 'png'"
+  changed_when: false
+
+- name: Disable screenshot shadow.
+  command: "defaults write com.apple.screencapture disable-shadow -bool true"
+  changed_when: false
+
+- name: Enable snap-to-grid for icons on the desktop and in other icon views.
+  block:
+    - name: Desktop snap-to-grid.
+      command: "/usr/libexec/PlistBuddy -c 'Set :DesktopViewSettings:IconViewSettings:arrangeBy grid' ~/Library/Preferences/com.apple.finder.plist"
+      changed_when: false
+      ignore_errors: true
+
+- name: Display Finder reminder.
+  debug:
+    msg:
+      - "macOS settings have been updated."
+      - "Some changes require logging out and back in to take effect."
+      - "You may need to restart Finder with: killall Finder"

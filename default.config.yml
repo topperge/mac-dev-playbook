@@ -32,6 +32,7 @@ sudoers_custom_config: ''
 dotfiles_repo: https://github.com/geerlingguy/dotfiles.git
 dotfiles_repo_accept_hostkey: true
 dotfiles_repo_local_destination: ~/Development/GitHub/dotfiles
+dotfiles_repo_version: master # Replace with your default branch
 dotfiles_files:
   - .zshrc
   - .gitignore
@@ -47,40 +48,96 @@ homebrew_installed_packages:
   - gettext
   - gifsicle
   - git
-  - github/gh/gh
+  - git-filter-repo
+  - git-lfs
+  - gh
+  - glab
   - go
   - gpg
+  - gnupg
+  - age
   - httpie
+  - htop
   - iperf
+  - jq
   - libevent
-  - sqlite
-  - mcrypt
+  - mysql-client
   - nmap
   - node
   - nvm
-  - php
-  - ssh-copy-id
-  - cowsay
-  - readline
   - openssl
+  - php
+  - postgresql@14
+  - pre-commit
   - pv
+  - pwgen
+  - pyenv
+  - readline
+  - ssh-copy-id
+  - sqlite
+  - pngpaste
   - wget
   - wrk
+  - yq
+  - yt-dlp
   - zsh-history-substring-search
-  - htop
-  - jq
+
+  # Essential CLI tools
+  - tree
+  - ripgrep
+  - fd
+  - tmux
+  - dos2unix
+  - rsync
+  - thefuck
+  - bat
+  - eza
+  - fzf
+  - zoxide
+  - git-delta
+  - direnv
+  - jless
+  - tldr
+
+  # Image processing
+  - imagemagick
+
+  # Network & diagnostics
+  - mtr
+  - iperf3
+  - speedtest-cli
+
+  # AWS/Cloud tools
   - awscli
   - aws-console
+  - aws-iam-authenticator
   - aws-shell
-  - ca-certificates
-  - wget
-  - imagemagick
-  - pyenv
-  - git-lfs
-  - youtube-dl
   - aws/tap/aws-sam-cli
   - aws/tap/container-tools
   - aws/tap/k8s-tools
+  - eksctl
+
+  # Container/Kubernetes tools
+  - docker-credential-helper-ecr
+  - helm
+  - kubernetes-cli
+
+  # Infrastructure as Code
+  - terraform
+  - terraform-docs
+  - tflint
+
+  # Build tools
+  - maven
+
+  # Code quality & linting
+  - shellcheck
+  - yamllint
+  - hadolint
+  - actionlint
+
+  # System
+  - ca-certificates
 
 homebrew_taps:
   - homebrew/core
@@ -95,6 +152,7 @@ homebrew_taps:
 homebrew_cask_appdir: /Applications
 homebrew_cask_apps:
   - chromedriver
+  - cloudflare-warp
   - docker
   - google-chrome
   - handbrake
@@ -124,6 +182,9 @@ homebrew_cask_apps:
   - apache-directory-studio
   - backblaze
   - dash
+  - rectangle
+  - font-fira-code-nerd-font
+  - font-jetbrains-mono-nerd-font
 
 # See `geerlingguy.mas` role documentation for usage instructions.
 mas_installed_apps: []

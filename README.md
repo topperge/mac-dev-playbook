@@ -9,20 +9,16 @@ This playbook installs and configures most of the software I use on my Mac for w
 ## Installation
 
   1. Ensure Apple's command line tools are installed (`xcode-select --install` to launch the installer).
-  2. Ensure Apple's Rosetta is installed for Vagrant (`sudo software-update --install-rosetta`).
-  3. [Install Ansible](https://docs.ansible.com/ansible/latest/installation_guide/index.html):
+  2. [Install Ansible](https://docs.ansible.com/ansible/latest/installation_guide/index.html):
 
-     1. Run the following command to add Python 3 to your $PATH: `export PATH="$HOME/Library/Python/3.9/bin:/opt/homebrew/bin:$PATH"`
+     1. Run the following command to add Python 3 to your $PATH: `export PATH="$HOME/Library/Python/$(python3 --version | cut -d' ' -f2 | cut -d'.' -f1,2)/bin:/opt/homebrew/bin:$PATH"`
      2. Upgrade Pip: `sudo pip3 install --upgrade pip`
      3. Install Ansible: `pip3 install ansible`
-  4. Clone or download this repository to your local drive.
-  5. Run `ansible-galaxy install -r requirements.yml` inside this directory to install required Ansible roles.
-  6. Run `ansible-playbook main.yml --ask-become-pass` inside this directory. Enter your macOS account password when prompted for the 'BECOME' password.
-  7. Run `cat files/vscode-extensions.txt | xargs -L1 code --install-extension` inside this directory to install a bunch of VSCode extension
-  8. Open up vscode and install the 'code' command line tool so that the next selection will work. This is done by:
 
-     1. Open the Command Palette (⌘ + ⇧ + P on Mac) OR View ❯ Command Palette
-     2. Type shell command to find Shell Command: Install 'code' command in PATH command
+  3. Clone or download this repository to your local drive.
+  4. Run `ansible-galaxy install -r requirements.yml` inside this directory to install required Ansible roles.
+  5. Run `ansible-playbook main.yml --ask-become-pass` inside this directory. Enter your macOS account password when prompted for the 'BECOME' password.
+  6. After setup completes, run the health check: `./scripts/healthcheck.sh`
 
 > Note: If some Homebrew commands fail, you might need to agree to Xcode's license or fix some other Brew issue. Run `brew doctor` to see if this is the case.
 
@@ -30,7 +26,7 @@ This playbook installs and configures most of the software I use on my Mac for w
 
 You can use this playbook to manage other Macs as well; the playbook doesn't even need to be run from a Mac at all! If you want to manage a remote Mac, either another Mac on your network, or a hosted Mac like the ones from [MacStadium](https://www.macstadium.com), you just need to make sure you can connect to it with SSH:
 
-  1. (On the Mac you want to connect to:) Go to System Preferences > Sharing.
+  1. (On the Mac you want to connect to:) Go to System Settings > Sharing.
   2. Enable 'Remote Login'.
 
 > You can also enable remote login on the command line:
@@ -47,9 +43,19 @@ If you need to supply an SSH password (if you don't use SSH keys), make sure to 
 
 ### Running a specific set of tagged tasks
 
-You can filter which part of the provisioning process to run by specifying a set of tags using `ansible-playbook`'s `--tags` flag. The tags available are `dotfiles`, `homebrew`, `mas`, `extra-packages` and `osx`.
+You can filter which part of the provisioning process to run by specifying a set of tags using `ansible-playbook`'s `--tags` flag. Available tags include:
+- `dotfiles` - Configure dotfiles
+- `homebrew` - Install Homebrew packages and casks
+- `mas` - Install Mac App Store apps
+- `extra-packages` - Install additional packages (npm, pip, gem, composer)
+- `osx` - Configure macOS system settings
+- `dev-environment` - Set up development environment (Git, SSH, shell completions)
+- `macos-settings` - Apply corporate security and productivity settings
+
+Example:
 
     ansible-playbook main.yml -K --tags "dotfiles,homebrew"
+    ansible-playbook main.yml -K --tags "dev-environment"
 
 ## Overriding Defaults
 
@@ -147,6 +153,56 @@ My [dotfiles](https://github.com/geerlingguy/dotfiles) are also installed into t
 
 Finally, there are a few other preferences and settings added on for various apps and services.
 
+## Corporate Enhancements
+
+This fork includes several corporate-focused enhancements:
+
+### Modern CLI Tools
+- **bat** - Syntax-highlighted cat replacement
+- **eza** - Modern ls with git integration
+- **fzf** - Fuzzy finder for files and history
+- **zoxide** - Smarter cd that learns your habits
+- **git-delta** - Better git diff viewer
+- **direnv** - Auto-load environment variables per directory
+- **jless** - JSON viewer
+- **tldr** - Simplified man pages
+
+### Security & Credential Management
+- **age** - Modern file encryption
+- **gnupg** - Full GPG suite
+- Automated SSH key setup guidance
+- Git credential helper configuration
+
+### Network & Diagnostics
+- **mtr** - Network diagnostic tool
+- **iperf3** - Network performance testing
+- **speedtest-cli** - Internet speed testing
+- **Cloudflare WARP** - Secure VPN
+
+### Code Quality & Linting
+- **shellcheck** - Shell script linter
+- **yamllint** - YAML linter
+- **hadolint** - Dockerfile linter
+- **actionlint** - GitHub Actions workflow linter
+
+### Productivity Apps
+- **Rectangle** - Window management
+- **Fira Code Nerd Font** - Developer font with ligatures
+- **JetBrains Mono Nerd Font** - Alternative developer font
+
+### Additional Resources
+- **Git Configuration Template** - Corporate-ready git config in `templates/gitconfig-corporate`
+- **Health Check Script** - Verify your installation with `./scripts/healthcheck.sh`
+- **Troubleshooting Guide** - Common issues and solutions in [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
+
+### Automated Setup Tasks
+- Creates common development directories (`~/Development`, `~/Projects`)
+- Installs and configures Oh My Zsh
+- Sets up SSH config template
+- Configures shell completions for kubectl, terraform, AWS CLI
+- Applies corporate security settings (screen lock, password requirements)
+- Optimizes Finder and keyboard settings
+
 ## Full / From-scratch setup guide
 
 Since I've used this playbook to set up something like 20 different Macs, I decided to write up a full 100% from-scratch install for my own reference (everyone's particular install will be slightly different).
@@ -170,5 +226,5 @@ Check out [Ansible for DevOps](https://www.ansiblefordevops.com/), which teaches
 
 This project was created by [Jeff Geerling](https://www.jeffgeerling.com/) (originally inspired by [MWGriffin/ansible-playbooks](https://github.com/MWGriffin/ansible-playbooks)).
 
-[badge-gh-actions]: https://github.com/geerlingguy/mac-dev-playbook/workflows/CI/badge.svg?event=push
-[link-gh-actions]: https://github.com/geerlingguy/mac-dev-playbook/actions?query=workflow%3ACI
+[badge-gh-actions]: https://github.com/geerlingguy/mac-dev-playbook/actions/workflows/ci.yml/badge.svg
+[link-gh-actions]: https://github.com/geerlingguy/mac-dev-playbook/actions/workflows/ci.yml

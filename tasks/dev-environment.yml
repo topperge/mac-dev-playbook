@@ -1,0 +1,169 @@
+---
+# Development Environment Setup
+# This task sets up common development environment configurations
+
+- name: Create common development directories.
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "~/Development"
+    - "~/Projects"
+    - "~/.ssh"
+    - "~/.config"
+
+- name: Check if Oh My Zsh is installed.
+  stat:
+    path: "~/.oh-my-zsh"
+  register: oh_my_zsh
+
+- name: Install Oh My Zsh.
+  shell: >
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+  when: not oh_my_zsh.stat.exists
+
+- name: Check if Git config exists.
+  stat:
+    path: "~/.gitconfig"
+  register: gitconfig
+
+- name: Copy Git corporate config template if no config exists.
+  copy:
+    src: "{{ playbook_dir }}/templates/gitconfig-corporate"
+    dest: "~/.gitconfig"
+    mode: '0644'
+  when: not gitconfig.stat.exists
+
+- name: Display Git configuration reminder.
+  debug:
+    msg:
+      - "REMINDER: Please update your Git configuration with your details:"
+      - "  git config --global user.name 'Your Name'"
+      - "  git config --global user.email 'your.email@company.com'"
+  when: not gitconfig.stat.exists
+
+- name: Create SSH config file if it doesn't exist.
+  copy:
+    dest: "~/.ssh/config"
+    content: |
+      # Corporate SSH Configuration
+      # Add your SSH hosts below
+
+      # Example:
+      # Host github.com
+      #   HostName github.com
+      #   User git
+      #   IdentityFile ~/.ssh/id_ed25519
+      #   AddKeysToAgent yes
+      #   UseKeychain yes
+
+      # Default settings for all hosts
+      Host *
+        AddKeysToAgent yes
+        UseKeychain yes
+        IdentitiesOnly yes
+    mode: '0600'
+    force: false
+
+- name: Check if SSH key exists.
+  stat:
+    path: "~/.ssh/id_ed25519"
+  register: ssh_key
+
+- name: Display SSH key generation reminder.
+  debug:
+    msg:
+      - "REMINDER: Generate your SSH key if you haven't already:"
+      - "  ssh-keygen -t ed25519 -C 'your.email@company.com'"
+      - "  ssh-add --apple-use-keychain ~/.ssh/id_ed25519"
+      - "Then add the public key to GitHub/GitLab:"
+      - "  cat ~/.ssh/id_ed25519.pub | pbcopy"
+  when: not ssh_key.stat.exists
+
+- name: Configure kubectl shell completion for zsh.
+  lineinfile:
+    path: "~/.zshrc"
+    line: "[[ $commands[kubectl] ]] && source <(kubectl completion zsh)"
+    create: true
+    mode: '0644'
+
+- name: Configure terraform shell completion for zsh.
+  lineinfile:
+    path: "~/.zshrc"
+    line: "complete -o nospace -C /opt/homebrew/bin/terraform terraform"
+    create: true
+    mode: '0644'
+
+- name: Configure AWS CLI shell completion for zsh.
+  lineinfile:
+    path: "~/.zshrc"
+    line: "complete -C '/opt/homebrew/bin/aws_completer' aws"
+    create: true
+    mode: '0644'
+
+- name: Add direnv hook to zsh.
+  lineinfile:
+    path: "~/.zshrc"
+    line: 'eval "$(direnv hook zsh)"'
+    create: true
+    mode: '0644'
+
+- name: Add zoxide to zsh.
+  lineinfile:
+    path: "~/.zshrc"
+    line: 'eval "$(zoxide init zsh)"'
+    create: true
+    mode: '0644'
+
+- name: Add fzf key bindings to zsh.
+  lineinfile:
+    path: "~/.zshrc"
+    line: '[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh'
+    create: true
+    mode: '0644'
+
+- name: Add useful aliases to zshrc.
+  blockinfile:
+    path: "~/.zshrc"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - Corporate aliases"
+    block: |
+      # Modern CLI replacements
+      alias ls='eza'
+      alias ll='eza -l'
+      alias la='eza -la'
+      alias lt='eza --tree'
+      alias cat='bat'
+      alias cd='z'
+
+      # Git aliases (if not using .gitconfig aliases)
+      alias gs='git status'
+      alias gp='git pull'
+      alias gf='git fetch'
+
+      # Kubernetes shortcuts
+      alias k='kubectl'
+      alias kgp='kubectl get pods'
+      alias kgs='kubectl get services'
+      alias kgd='kubectl get deployments'
+
+      # Docker shortcuts
+      alias d='docker'
+      alias dc='docker-compose'
+      alias dps='docker ps'
+      alias dim='docker images'
+    create: true
+    mode: '0644'
+
+- name: Configure bat theme.
+  lineinfile:
+    path: "~/.zshrc"
+    line: 'export BAT_THEME="Monokai Extended"'
+    create: true
+    mode: '0644'
+
+- name: Display completion message.
+  debug:
+    msg:
+      - "Development environment setup complete!"
+      - "Please restart your terminal or run: source ~/.zshrc"

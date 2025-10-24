@@ -1,0 +1,100 @@
+# Corporate Git Configuration Template
+# Copy this to ~/.gitconfig and customize with your details
+
+[user]
+    # REQUIRED: Set your name and corporate email
+    # name = Your Name
+    # email = your.email@company.com
+
+[core]
+    editor = vim
+    autocrlf = input
+    # Ignore permission changes (useful for corporate environments)
+    filemode = false
+
+[pull]
+    rebase = false
+
+[push]
+    default = simple
+    # Automatically push tags
+    followTags = true
+
+[init]
+    defaultBranch = main
+
+[fetch]
+    prune = true
+
+[diff]
+    # Use delta for better diffs (install via: brew install git-delta)
+    # Uncomment if you have delta installed
+    # pager = delta
+
+[interactive]
+    # diffFilter = delta --color-only
+
+[delta]
+    navigate = true
+    light = false
+    line-numbers = true
+    side-by-side = true
+
+[merge]
+    conflictstyle = diff3
+
+[color]
+    ui = auto
+
+[alias]
+    # Status & Info
+    st = status
+    s = status -sb
+
+    # Checkout
+    co = checkout
+    cob = checkout -b
+
+    # Branch
+    br = branch
+    bra = branch -a
+    brd = branch -d
+
+    # Commit
+    ci = commit
+    cm = commit -m
+    amend = commit --amend --no-edit
+
+    # Log
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    last = log -1 HEAD
+    hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+
+    # Diff
+    df = diff
+    dfs = diff --staged
+
+    # Stash
+    stash-all = stash save --include-untracked
+
+    # Undo
+    unstage = reset HEAD --
+    undo = reset --soft HEAD^
+
+    # Cleanup
+    prune-local = !git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -D
+
+    # Workflows
+    wip = commit -am "WIP" --no-verify
+    sync = !git fetch --all && git pull --rebase
+
+[url "https://github.com/"]
+    insteadOf = gh:
+
+[credential]
+    # For macOS, use the system keychain
+    helper = osxkeychain
+
+# Include any local overrides
+[include]
+    path = ~/.gitconfig.local
