@@ -140,13 +140,9 @@ homebrew_installed_packages:
   - ca-certificates
 
 homebrew_taps:
-  - homebrew/core
-  - homebrew/cask
-  - homebrew/bundle
-# Deprecated in June 2023 by Homebrew team
-#  - homebrew/cask-drivers
+  # Note: homebrew/core and homebrew/cask are automatically tapped and deprecated as manual taps
+  # Only keep taps that are actually needed for third-party repos or fonts
   - homebrew/cask-fonts
-  - homebrew/services
   - aws/tap
 
 homebrew_cask_appdir: /Applications
